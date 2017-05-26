@@ -1,9 +1,5 @@
 <?php
 error_reporting ( 0 );
-if ($_COOKIE ['LOGGED_IN'] == "false") {
-	header ( 'Location: http://www.example.com/' );
-	die ();
-}
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -35,7 +31,7 @@ if ($_COOKIE ['LOGGED_IN'] == "false") {
 <body>
 	<section class="container" id="rootSect" name="rootSect">
 		<div class="login">
-			<h1>Login</h1>
+			<h1>Account Creation</h1>
 			<form id="loginForm" name="loginForm">
 				<p>
 					<input type="text" name="login" id="login" value=""
@@ -58,12 +54,7 @@ if ($_COOKIE ['LOGGED_IN'] == "false") {
 		</div>
 
 		<div class="login-help">
-			<p>
-				Forgot your password? <a href="index.html">Click here to reset it</a>.
-			</p>
-			<p>
-				Need an account? <a href="register.php">Register here.</a>.
-			</p>
+	
 		</div>
 	</section>
 
@@ -98,7 +89,7 @@ if ($_COOKIE ['LOGGED_IN'] == "false") {
 	  $("#commit").prop("disabled",true);
 	  $.ajax({
 		  type: "POST",
-		  url: "lib/API/validate.php",
+		  url: "lib/API/register.php",
 		  data: $("#loginForm").serialize(),
 		  success: function (result) {
 			$("#commit").val("Login");
@@ -106,10 +97,6 @@ if ($_COOKIE ['LOGGED_IN'] == "false") {
 				if(result.indexOf("Warning") > -1 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
 					$("#dialog").html(result);
 			 	    $("#dialog" ).dialog();
-				}else if(result == "OK"){
-					create_cookie("LOGGED_IN", "true", 1, "/");
-				}else{
-					shakeForm();
 				}
 			}
 		});
