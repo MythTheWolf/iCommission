@@ -7,7 +7,11 @@ $con = $MySQL->getConnection ();
 $req = $con->prepare ( "SELECT * FROM `iComission_User` WHERE `username` = ? AND `password` = ?" );
 $req->bind_param ( "ss", $UN, $PASS );
 $req->execute ();
-if ($req->affected_rows == - 1) {
-	die("INVALID");
+$results = $req->fetch ();
+if ($results) {
+	setcookie("USERNAME",$UN,time()+43200,"/");
+	die ( "OK" );
+} else {
+	die ( "INVALID" );
 }
 ?>

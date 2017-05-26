@@ -1,5 +1,9 @@
 <?php
 error_reporting ( 0 );
+if ($_COOKIE ['LOGGED_IN'] == "true") {
+	header ( 'Location: /pages/member.php' );
+	die ();
+}
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -11,7 +15,7 @@ error_reporting ( 0 );
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Login Form</title>
+
 <link rel="stylesheet" href="css/style.css">
 <link
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -28,23 +32,59 @@ error_reporting ( 0 );
 	href="http://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
 <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
+
 <body>
+<?php
+
+if (! empty ( $_GET ['action'] )) {
+	?>
+	<script>
+	function redirect(){
+		window.location = "/";
+	}
+	</script>
+	<section class="container" id="rootSect" name="rootSect">
+		<div class="login">
+			<h1>Account Created!</h1>
+			<div align="center">
+			<p>
+			Your account has been created! <br />
+			You may now head to the home page a login. <br />
+			<input type="submit" id="commit" name="commit" value="Return to home page" onclick="redirect();">
+			</p>
+			
+			</div>
+		</div>
+
+		<div class="login-help"></div>
+	</section>
+	
+<?php
+} else {
+	?>
 	<section class="container" id="rootSect" name="rootSect">
 		<div class="login">
 			<h1>Account Creation</h1>
 			<form id="loginForm" name="loginForm">
 				<p>
 					<input type="text" name="login" id="login" value=""
-						placeholder="Email">
+						placeholder="Username">
+				</p>
+				<p>
+					<input type="text" name="email" id="email" value=""
+						placeholder="E-mail">
 				</p>
 				<p>
 					<input type="password" name="password" id="password" value=""
 						placeholder="Password">
 				</p>
-				<p class="remember_me">
-					<label> <input type="checkbox" name="remember_me" id="remember_me">
-						Remember me on this computer
-					</label>
+				<p>
+					<input type="password" name="password_confirm"
+						id="password_confirm" value="" placeholder="Confirm Password">
+				</p>
+				<p>
+					<input type="text" name="gender" id="gender" value=""
+						placeholder="I identify as...">
 				</p>
 				<p class="submit">
 					<input type="submit" name="commit" value="Login" id="commit"
@@ -53,9 +93,7 @@ error_reporting ( 0 );
 			</form>
 		</div>
 
-		<div class="login-help">
-	
-		</div>
+		<div class="login-help"></div>
 	</section>
 
 	<script>
@@ -97,7 +135,15 @@ error_reporting ( 0 );
 				if(result.indexOf("Warning") > -1 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
 					$("#dialog").html(result);
 			 	    $("#dialog" ).dialog();
-				}
+				}else if(result == "ERR_NUMFIELDS"){
+					$("#dialog").html("Please fill out all fields.");
+			 	    $("#dialog" ).dialog();
+				}else if(result == "ERR_PASSWORDMIX"){
+					$("#dialog").html("Passwords do not match.");
+			 	    $("#dialog" ).dialog();
+				}else{
+					window.location = "?action=done";
+				}	
 			}
 		});
 	});
@@ -108,5 +154,8 @@ error_reporting ( 0 );
 			information. The dialog window can be moved, resized and closed with
 			the 'x' icon.</p>
 	</div>
+<?php
+}
+?>
 </body>
 </html>

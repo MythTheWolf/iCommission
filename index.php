@@ -1,7 +1,7 @@
 <?php
 error_reporting ( 0 );
-if ($_COOKIE ['LOGGED_IN'] == "false") {
-	header ( 'Location: http://www.example.com/' );
+if ($_COOKIE ['LOGGED_IN'] == "true") {
+	header ( 'Location: /pages/member.php' );
 	die ();
 }
 ?>
@@ -39,7 +39,7 @@ if ($_COOKIE ['LOGGED_IN'] == "false") {
 			<form id="loginForm" name="loginForm">
 				<p>
 					<input type="text" name="login" id="login" value=""
-						placeholder="Email">
+						placeholder="Username">
 				</p>
 				<p>
 					<input type="password" name="password" id="password" value=""
@@ -71,11 +71,11 @@ if ($_COOKIE ['LOGGED_IN'] == "false") {
 
 	  function shakeForm() {
 			var l = 30;
-			for (var i = 0; i < 10; i++)
+			for (var i = 0; i < 8; i++)
 				$("#rootSect").animate({
 					'margin-left' : "+=" + ( l = -l ) + 'px',
 					'margin-right' : "-=" + l + 'px'
-				}, 35);
+				}, 33);
 		}
 	  /**
 	   * Create cookie with javascript
@@ -108,6 +108,7 @@ if ($_COOKIE ['LOGGED_IN'] == "false") {
 			 	    $("#dialog" ).dialog();
 				}else if(result == "OK"){
 					create_cookie("LOGGED_IN", "true", 1, "/");
+					window.location = "pages/member.php";
 				}else{
 					shakeForm();
 				}
