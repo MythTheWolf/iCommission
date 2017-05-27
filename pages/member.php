@@ -20,9 +20,27 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 
 <title>Simple Sidebar - Start Bootstrap Template</title>
 
-<!-- Bootstrap Core CSS -->
-<link href="/css/bootstrap.min.css" rel="stylesheet">
-
+<link rel="stylesheet"
+	href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css"
+	integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+	integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
 <!-- Custom CSS -->
 <link href="/css/simple-sidebar.css" rel="stylesheet">
 
@@ -46,11 +64,18 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 		<div id="sidebar-wrapper">
 			<ul class="sidebar-nav">
 				<li class="sidebar-brand"><a href="#"> iCommission </a></li>
-				<li style="background: rgba(255, 255, 255, 0.2); color: white"><a
-					href="#">Dashboard</a></li>
+				<li style="background: rgba(255, 255, 255, 0.2); color: white"
+					id="dashboard-link"><a href="#" id="dashboard-link">Dashboard</a></li>
 				<li><a href="#">Browse</a></li>
 				<li><a href="#">Mail</a></li>
-				<li id="COMM_REQUESTS"></li>
+				<li><a href="#" id="COMM_REQUESTS"> </a></li>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Page 1-1</a></li>
+						<li><a href="#">Page 1-2</a></li>
+						<li><a href="#">Page 1-3</a></li>
+					</ul></li>
 			</ul>
 		</div>
 		<!-- /#sidebar-wrapper -->
@@ -72,13 +97,8 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 	</div>
 	<!-- /#wrapper -->
 
-	<!-- jQuery -->
-	<script src="/js/jquery.js"></script>
 
-	<!-- Bootstrap Core JavaScript -->
-	<script src="/js/bootstrap.min.js"></script>
 
-	<!-- Menu Toggle Script -->
 	<script>
 	function getUrlParam(sParam) {
 	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -113,34 +133,45 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 		  url: "/lib/API/getDashboardStats.php",
 		  data: $("#fieldVars").serialize(),
 		  success: function (result) {
-			 if(result.indexOf("Warning") > -1 || result.indexOf("Notice") > -1 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
+			  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
 					$("#dialog").html(result);
 			 	    $("#dialog" ).dialog();
-			 }else{
+			  }else{
 			  $("#dashboard-upcoming").html(result);
 			   var obj = JSON.parse(result);
-                $("#COMM_REQUESTS").html("<a href=\"#\">Commission Requests <span class=\"label label-danger\">" + obj.numUnansweredRequets + "</span> </a>");
+                $("#COMM_REQUESTS").html("Commission reqests <span class=\"label label-danger\">" + obj.numUnansweredRequets + "</span>");
                 if(obj.numPastDue > 0){
-                   
+                   $("#dashboard-link").html("Dashboard <span class=\"label label-danger\">!</span>");
                 }else{
                     
                 }
-                if(obj.upComingDues.length > 0){
-                    var base = "<table class=\"table table-hover\">    <thead>      <tr>        <th>Project name</th>        <th>User</th>        <th>Catagory</th><th>Description</th><th>Step</th>      </tr>    </thead>    <tbody>";
+                if(obj.overDues.length > 0){
+                    var base = "<table class=\"table table-hover\" id=\"upcoming\">    <thead>      <tr> <th>Action</th>        <th>Project name</th>        <th>User</th>        <th>Catagory</th> <th>Description</th>  <th>Step</th>     <th>Expected due date</th> </tr>    </thead>    <tbody>";
                     var suffix = "";
-                	var arrayLength = obj.upComingDues.length;
+                	var arrayLength = obj.overDues.length;
                 	for (var i = 0; i < arrayLength; i++) {
-                	    suffix = suffix+"<tr><td>" + obj.upComingDues[i].name + "</td><td>" + obj.upComingDues[i].endUser + "</td><td>" + obj.upComingDues[i].desc + "</td><td>" + obj.upComingDues[i].step +"</td></tr>";
+                    	if(obj.overDues.isWarning == "true"){
+                    		suffix = suffix+"<tr class=\"warning\"> <td>ACT</td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
                 	    //Do something
+                    	}else{
+                    		suffix = suffix+"<tr class=\"danger\"> <td>ACT</td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
+                    	}
                 	}
                 	$("#dashboard-upcoming").html(base+suffix+"</tbody></table>");
                 }
+			  }
 		  	}
-		  }
+	   			
 	 	});   
-	    setTimeout(arguments.callee, 600);
+	    setTimeout(arguments.callee, 1000);
 	})();
+
+
 	</script>
 </body>
-
+<div id="dialog" name="dialog" title="A error has occured" hidden>
+	<p>This is the default dialog which is useful for displaying
+		information. The dialog window can be moved, resized and closed with
+		the 'x' icon.</p>
+</div>
 </html>
