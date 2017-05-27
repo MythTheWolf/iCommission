@@ -9,7 +9,6 @@ $req->bind_param ( "ss", $UN, $PASS );
 $req->execute ();
 $results = $req->fetch ();
 if ($results) {
-	setcookie("USERNAME",$UN,time()+43200,"/");
 	die ( "OK" );
 } else {
 	die ( "INVALID" );

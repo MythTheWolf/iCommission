@@ -2,6 +2,8 @@
 require_once $_SERVER ['DOCUMENT_ROOT'] . "/lib/PhpMailer/PHPMailerAutoload.php";
 require_once $_SERVER ['DOCUMENT_ROOT'] . "/lib/config/MySQL.php";
 $mail = new PHPMailer ();
+ini_set ( "file_uploads", "On" );
+
 if (empty ( $_POST ['login'] ) || empty ( $_POST ['password'] ) || empty ( $_POST ['email'] ) || empty ( $_POST ['password_confirm'] ) || empty ( $_POST ['gender'] )) {
 	die ( "ERR_NUMFIELDS" );
 }
@@ -28,11 +30,14 @@ $mail->isHTML ( true ); // Set email format to HTML
 $mail->Subject = 'Here is the subject';
 $mail->Body = 'This is the HTML message body <b>in bold!</b>';
 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+/*
 if (! $mail->send ()) {
 	echo 'Fatal: The registration email could not be sent. <br />';
 	echo "Your registeration was canceled.";
 	die ();
 } else {
-	$req->execute ();
+	
 	die();
 }
+*/
+$req->execute ();

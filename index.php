@@ -108,6 +108,7 @@ if ($_COOKIE ['LOGGED_IN'] == "true") {
 			 	    $("#dialog" ).dialog();
 				}else if(result == "OK"){
 					create_cookie("LOGGED_IN", "true", 1, "/");
+					create_cookie("USERNAME", $("#login").val(), 1, "/");
 					window.location = "pages/member.php";
 				}else{
 					shakeForm();

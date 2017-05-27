@@ -47,12 +47,14 @@ if (! empty ( $_GET ['action'] )) {
 		<div class="login">
 			<h1>Account Created!</h1>
 			<div align="center">
-			<p>
-			Your account has been created! <br />
-			You may now head to the home page a login. <br />
-			<input type="submit" id="commit" name="commit" value="Return to home page" onclick="redirect();">
-			</p>
-			
+				<p>
+					Your account has been created! <br /> You may now head to the home
+					page a login. <br /> <input type="submit" id="commit" name="commit"
+						value="Return to home page" onclick="redirect();">
+				</p>
+				<p>
+					<input type="file" id="files" /> <img id="image" />
+				</p>
 			</div>
 		</div>
 
@@ -86,6 +88,22 @@ if (! empty ( $_GET ['action'] )) {
 					<input type="text" name="gender" id="gender" value=""
 						placeholder="I identify as...">
 				</p>
+
+				<input type="file" id="files" name="files" /> <img id="image" />
+
+				<script>
+				document.getElementById("files").onchange = function () {
+				    var reader = new FileReader();
+
+				    reader.onload = function (e) {
+				        // get loaded data and render thumbnail.
+				        document.getElementById("image").src = e.target.result;
+				    };
+
+				    // read the image file as a data URL.
+				    reader.readAsDataURL(this.files[0]);
+				};
+				</script>
 				<p class="submit">
 					<input type="submit" name="commit" value="Login" id="commit"
 						onClick="return(false)">

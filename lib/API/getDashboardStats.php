@@ -1,0 +1,46 @@
+<?php
+if(empty($_POST ['currentDate'])){
+	die("Unauthorized.");
+}
+require_once $_SERVER ['DOCUMENT_ROOT'] . '/lib/config/MySQL.php';
+$artist = $_COOKIE ['USERNAMED'];
+
+$mySQL = new MySQL ();
+$db = $mySQL->getConnection ();
+$final = Array();
+$return ['numPastDue'] = 0;
+$return ['numUnansweredRequets'] = 0;
+$upcomingDues = Array();
+$upComing;
+$sql = "SELECT * FROM `icomission_user_commissions` WHERE `artist` = \"" . $artist . "\"";
+if (! $result = $db->query ( $sql )) {
+	die ( "There was an error running the query [" . $db->error . ']' );
+}
+
+while ( $row = $result->fetch_assoc () ) {
+	$now = new DateTime ( $_POST ['currentDate'] );
+	$due = new DateTime ( $row['projectedEnd']);
+	
+	if ($now >= $due) {
+		$return ['numPastDue'] ++;
+	}
+	date_add($now, date_interval_create_from_date_string("7 days"));
+	if($now > $due){
+		$upComing['dateStart'] = $row['dateStart'];
+		$upComing['endUser'] = $row['endUser'];
+		$upComing['desc'] = $row['description'];
+		$upComing['projectedEnd'] = $row['projectedEnd'];
+		$upcomingDues[] = $upComing;
+	}
+}
+$return['upComingDues'] = $upcomingDues;
+$sql = "SELECT * FROM `iComission_commission_requests` WHERE `artist` = \"" . $artist . "\" AND `state` = \"OPEN\"";
+if (! $result = $db->query ( $sql )) {
+	die ( 'There was an error running the query [' . $db->error . ']' );
+}
+
+while ( $row = $result->fetch_assoc () ) {
+	$return ['numUnansweredRequets'] ++;
+}
+
+echo json_encode ( $return );
