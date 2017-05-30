@@ -36,13 +36,13 @@ while ( $row = $result->fetch_assoc () ) {
 	} else {
 		date_add ( $now, date_interval_create_from_date_string ( "7 days" ) );
 		if ($now > $due) {
-			$return ['numPastDue'] ++;
+			
 			$overDue ['dateStart'] = $row ['dateStart'];
 			$overDue ['endUser'] = $row ['endUser'];
 			$overDue ['desc'] = $row ['description'];
 			$overDue ['projectedEnd'] = $row ['projectedEnd'];
 			$overDue ['id'] = $row ['ID'];
-			$overDue ['isWarning'] = true;
+			$overDue ['isWarning'] = "true";
 			$overDue['name'] = $row['name'];
 			$overDues [] = $overDue;
 		}

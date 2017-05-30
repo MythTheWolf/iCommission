@@ -41,9 +41,12 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
+<script src="/JS/jquery.avgrund.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
 <!-- Custom CSS -->
 <link href="/css/simple-sidebar.css" rel="stylesheet">
-
+<link href="/css/avgrund.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.css" rel="stylesheet">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -86,6 +89,7 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 				<div class="row">
 					<div class="col-lg-12">
 						<h1>Upcoming due commissions</h1>
+						<button type="button" id="av" name="av"></button>
 						<hr class="divider">
 						<div id="dashboard-upcoming"></div>
 					</div>
@@ -121,7 +125,15 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 	 
 	</script>
 	<script>
+	function bind(result){
+		$("#editButton").click(function(){
+			var ID = $(this).attr("name");
+			var obj = JSON.parse(result);
+			
+		});
+	}
 	(function(){
+	
 	    var d = new Date();
 	    var curr_date = d.getDate();
 	    var curr_month = d.getMonth() + 1; //Months are zero based
@@ -133,6 +145,7 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 		  url: "/lib/API/getDashboardStats.php",
 		  data: $("#fieldVars").serialize(),
 		  success: function (result) {
+		
 			  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
 					$("#dialog").html(result);
 			 	    $("#dialog" ).dialog();
@@ -150,14 +163,15 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
                     var suffix = "";
                 	var arrayLength = obj.overDues.length;
                 	for (var i = 0; i < arrayLength; i++) {
-                    	if(obj.overDues.isWarning == "true"){
-                    		suffix = suffix+"<tr class=\"warning\"> <td>ACT</td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
+                    	if(obj.overDues[i].isWarning == "true"){
+                    		suffix = suffix+"<tr class=\"warning\"> <td><button type=\"button\" class=\"btn btn-primary\" id=\"editButton\" name=\" " + obj.overDues[i].id + "\">Edit..</button></td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
                 	    //Do something
                     	}else{
-                    		suffix = suffix+"<tr class=\"danger\"> <td>ACT</td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
+                    		suffix = suffix+"<tr class=\"danger\"> <td><button type=\"button\" class=\"btn btn-primary\" id=\"editButton\" name=\" " + obj.overDues[i].id + "\">Edit..</button></td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
                     	}
                 	}
                 	$("#dashboard-upcoming").html(base+suffix+"</tbody></table>");
+                	 bind(result);
                 }
 			  }
 		  	}
@@ -166,7 +180,7 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 	    setTimeout(arguments.callee, 1000);
 	})();
 
-
+	
 	</script>
 </body>
 <div id="dialog" name="dialog" title="A error has occured" hidden>
