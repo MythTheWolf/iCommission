@@ -32,7 +32,7 @@ class PayPalPayment {
 				'log.FileName' => "thread.log",
 				'validation.level' => "log" 
 		] );
-		var_dump($this->API);
+	
 		// Setting defaults
 		$this->Amount = new Amount ();
 		$this->Payer = new Payer ();
