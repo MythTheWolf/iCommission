@@ -30,8 +30,6 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
 	crossorigin="anonymous"></script>
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -49,7 +47,11 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.css"
 	rel="stylesheet">
-
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="/css/iziToast.min.css">
+	<script src="/JS/iziToast.min.js"></script>
+	<script src="/JS/systemPoll.js"></script>
 <style>
 
 /*	--------------------------------------------------
@@ -495,8 +497,8 @@ div#drop_down_bar {
 					<div class="col-md-8">
 						<div class="panel panel-info">
 							<div class="panel-heading"
-								style="background: rgba(144, 144, 144, 0.4);" id="chatbox-head">Chat
-								with {username}</div>
+								style="background: rgba(144, 144, 144, 0.4);"
+								id="chatbox-header">Chat with {username}</div>
 							<div class="panel-body" style="">
 								<ul class="media-list" id="chatbox">
 								</ul>
@@ -504,9 +506,9 @@ div#drop_down_bar {
 							<div class="panel-footer">
 								<div class="input-group">
 									<form id="messageForm" name="messageForm">
-										<input type="text" id="partnerID" hidden="true"> <input
-											type="text" class="form-control" id="chatMessage"
-											name="chatMessage" placeholder="Enter Message" />
+										<input type="text" id="partnerID" hidden="true"> <textarea
+											class="form-control" id="chatMessage"
+											name="chatMessage" placeholder="Enter Message" rows="1"></textarea>
 
 									</form>
 									<span class="input-group-btn">
@@ -516,7 +518,8 @@ div#drop_down_bar {
 
 								</div>
 								<div class="checkbox">
-									<label><input type="checkbox" value="0" id="follow">Follow thread</label>
+									<label><input type="checkbox" value="0" id="follow">Follow
+										thread</label>
 								</div>
 							</div>
 						</div>
@@ -591,62 +594,47 @@ $(document).ready(function() {
 
 	function DDA( message )
 	{
-	$("div#drop_down_bar").text(message).slideDown(350, function(){
-	$(this).effect("bounce", { times: 1 }, 250, function(){
-	$(this).delay(2000).slideUp("slow");
-	});
-	});
+		 iziToast.show({
+		        id: 'haduken',
+		        color: 'dark',
+		        icon: 'icon-contacts',
+		        title: 'Info',
+		        message: message,
+		        position: 'topCenter',
+		        transitionIn: 'flipInX',
+		        transitionOut: 'flipOutX',
+		        progressBarColor: 'rgb(0, 255, 184)',
+		        image: '',
+		        imageWidth: 70,
+		        layout:2,
+		        onClose: function(){
+		            // console.info('onClose');
+		        },
+		        iconColor: 'rgb(0, 255, 184)'
+		    });
 	}
 	
 	(function(){
-
-	
-	    
-	 	$.ajax({
-		  type: "POST",
-		  url: "/lib/API/getMail.php",
-		  data: $("#fieldVars").serialize(),
-		  success: function (result) {
-			  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
-					$("#dialog").html(result);
-			 	    $("#dialog" ).dialog();
-			  }else{
-				  var JSONOBJ = JSON.parse(result);
-				  var APP = "";
-				  var arrayLength = JSONOBJ.messages.length;
-				 var check;
-					for (var i = 0; i < arrayLength; i++) {
-						
-						check = "#message_"+JSONOBJ.messages[i].id;
-						
-								if( $(check).length == 0 ){
-									
-									APP = "<div id=\"message_" + JSONOBJ.messages[i].id + "\"><li class=media><div class=media-body><div class=media><a class=pull-left href=#><img class=\"img-circle media-object\"onerror='this.src=\"/assets/image/logo-default.png\"'src=\"\"style=width:90px;height:90px></a><div class=media-body>"+JSONOBJ.messages[i].content+"<br><hr><small class=text-muted>"+JSONOBJ.messages[i].senderName+"</small></div></div></div></li><hr></div>";
-									$("#chatbox").append(APP);
-									if ($('#follow').is(':checked')) {
-										$("html, body").animate({ scrollTop: $(document).height() }, 1);
-									}
-								}else{
-
-								}
-					}				 
-			  }
-		  }
-	 	});   
+		reparse(false);
 	setTimeout(arguments.callee, 1000);
 	})();
-	function reparse(){
+	function reparse(rebuild){
+		if(rebuild){
 		$("#chatbox").html("");
+		 
+		}
+		
 	 	$.ajax({
 			  type: "POST",
 			  url: "/lib/API/getMail.php",
 			  data: $("#fieldVars").serialize(),
 			  success: function (result) {
+				  var JSONOBJ = JSON.parse(result);
 				  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
 						$("#dialog").html(result);
 				 	    $("#dialog" ).dialog();
 				  }else{
-					  var JSONOBJ = JSON.parse(result);
+					  JSONOBJ = JSON.parse(result);
 					  var APP = "";
 					  var arrayLength = JSONOBJ.messages.length;
 					 var check;
@@ -655,11 +643,11 @@ $(document).ready(function() {
 							check = "#message_"+JSONOBJ.messages[i].id;
 							
 									if( $(check).length == 0 ){
-										
-										APP = "<div id=\"message_" + JSONOBJ.messages[i].id + "\"><li class=media><div class=media-body><div class=media><a class=pull-left href=#><img class=\"img-circle media-object\"onerror='this.src=\"/assets/image/logo-default.png\"'src=\"\"style=width:90px;height:90px></a><div class=media-body>"+JSONOBJ.messages[i].content+"<br><hr><small class=text-muted>"+JSONOBJ.messages[i].senderName+"</small></div></div></div></li><hr></div>";
+										$("#chatbox-header").html("Chat with "+JSONOBJ.userData[0].username);
+										APP = "<div id=\"message_" + JSONOBJ.messages[i].id + "\"><li class=media><div class=media-body><div class=media><a class=pull-left href=#><img class=\"img-circle media-object\"onerror='this.src=\"/assets/image/logo-default.png\"'src=\"\"style=width:50px;height:50px></a><div class=media-body><small class=text-muted>"+JSONOBJ.messages[i].senderName+"</small><br>"+JSONOBJ.messages[i].content+"</div></div></div></li><hr></div>";
 										$("#chatbox").append(APP);
 										if ($('#follow').is(':checked')) {
-											$("html, body").animate({ scrollTop: $(document).height() }, 1);
+											window.location = "#commit-text";;
 										}
 									}else{
 
@@ -669,6 +657,42 @@ $(document).ready(function() {
 			  }
 		 	});   
 	}
+	  $('#follow').change(function() {
+			
+			if(this.checked){
+			DDA("The page will now auto scroll to the bottom on new message.");   
+			}else{
+			DDA("Scrolling is now manual."); 
+			}    
+	    });
+	$('#chatMessage').bind("enterKey",function(e){
+		$.ajax({
+			  type: "POST",
+			  url: "/lib/API/commitMessage.php",
+			  data: $("#messageForm").serialize(),
+			  success: function (result) {
+				  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
+						$("#dialog").html(result);
+				 	    $("#dialog" ).dialog();
+				  }else{
+					  $("#chatMessage").val("");
+					  DDA("Your message has been sent.");
+					reparse(false);
+					
+				  }
+			  }
+		});
+		});
+		$('#chatMessage').keyup(function(e){
+		if(e.keyCode == 13)
+		{
+		if(!e.shiftKey){
+		  $(this).trigger("enterKey");
+			}else{
+				
+			}
+		}
+		});
 	$("#commit-text").click(function(){
 		$.ajax({
 			  type: "POST",
@@ -681,7 +705,8 @@ $(document).ready(function() {
 				  }else{
 					  $("#chatMessage").val("");
 					  DDA("Your message has been sent.");
-					reparse();
+					reparse(false);
+					
 				  }
 			  }
 		});

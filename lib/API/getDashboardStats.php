@@ -3,7 +3,8 @@ if (empty ( $_POST ['currentDate'] )) {
 	die ( "Unauthorized." );
 }
 require_once $_SERVER ['DOCUMENT_ROOT'] . '/lib/config/MySQL.php';
-$artist = $_COOKIE ['USERNAME'];
+require_once $_SERVER ['DOCUMENT_ROOT'] . '/lib/user/SiteUser.php';
+$artist = siteUser::convertToId($_COOKIE['USERNAME']);
 if (empty ( $artist )) {
 	die ( "error: couldn't grab username.." );
 }
@@ -18,11 +19,9 @@ $sql = "SELECT * FROM `icomission_user_commissions` WHERE `artist` = \"" . $arti
 if (! $result = $db->query ( $sql )) {
 	die ( "There was an error running the query [" . $db->error . ']' );
 }
-
 while ( $row = $result->fetch_assoc () ) {
 	$now = new DateTime ( $_POST ['currentDate'] );
 	$due = new DateTime ( $row ['projectedEnd'] );
-	
 	if ($now >= $due) {
 		$return ['numPastDue'] ++;
 		$overDue ['dateStart'] = $row ['dateStart'];

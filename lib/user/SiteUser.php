@@ -12,33 +12,33 @@ class siteUser {
 	private $avatarURL;
 	static function convertToId($name) {
 		$sql = "SELECT * FROM `icomission_user` WHERE `username` = \"" . $name . "\"";
-		$db = (new MySQL())->getConnection();
+		$db = (new MySQL ())->getConnection ();
 		if (! $result = $db->query ( $sql )) {
 			die ( 'There was an error running the query [' . $db->error . ']' );
 		}
-	
+		
 		while ( $row = $result->fetch_assoc () ) {
 			
-			return $row['ID'];
+			return $row ['ID'];
 		}
 	}
 	function __construct($user) {
 		$mySQL = new MySQL ();
 		$db = $mySQL->getConnection ();
 		
-		$sql = "SELECT * FROM `iComission_User` WHERE `ID` = \"".$user."\"";
+		$sql = "SELECT * FROM `iComission_User` WHERE `ID` = \"" . $user . "\"";
 		if (! $result = $db->query ( $sql )) {
 			die ( 'There was an error running the query [' . $db->error . ']' );
 		}
-
+		
 		while ( $row = $result->fetch_assoc () ) {
 			$this->gender = $row ['gender'];
 			$this->status = $row ['status'];
 			$this->open = $row ['open'];
 			$this->bio = $row ['bio'];
 			$this->email = $row ['email'];
-			$this->username = $row['username'];
-			$this->avatarURL = $row['avatar'];
+			$this->username = $row ['username'];
+			$this->avatarURL = $row ['avatar'];
 		}
 	}
 	function getGender() {
@@ -56,10 +56,14 @@ class siteUser {
 	function getEmail() {
 		return $this->email;
 	}
-	function getName(){
+	function getName() {
 		return $this->username;
 	}
-	function getAvatar(){
-		return $this->avatarURL;
+	function getAvatar() {
+		if ($this->avatarURL == NULL || empty($this->avatarURL) || $this->avatarURL == "null" || $this->avatarURL == "NULL") {
+			return "/assets/image/logo-default.png";
+		} else {
+			return $this->avatarURL;
+		}
 	}
 }

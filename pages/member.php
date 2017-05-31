@@ -49,8 +49,14 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.css"
 	rel="stylesheet">
+<link rel="stylesheet" href="/css/iziToast.min.css">
+<script src="/JS/iziToast.min.js"></script>
+
+<link rel="stylesheet" href="/css/iziModal.min.css">
+<script src="/JS/iziModal.min.js"></script>
 
 <style>
+
 /* CSS used here will be applied after bootstrap.css */ /*!
  * Start Bootstrap - SB Admin Bootstrap Admin Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
@@ -274,8 +280,12 @@ ul.alert-dropdown {
 	margin: 0 3px 0 0;
 }
 </style>
-</head>
 
+</head>
+<div id="modal">
+	<!-- Page content -->
+	some content?
+</div>
 <body>
 	<form id="fieldVars" name="fieldVars">
 		<input type="text" name="currentDate" id="currentDate" hidden="true">
@@ -314,8 +324,8 @@ ul.alert-dropdown {
 				<ul class="nav navbar-nav side-nav">
 					<li class="active"><a href="?" id="dashboard-link"><i
 							class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
-					<li><a href="/pages/UserMail.php?view=inbox"><i class="fa fa-fw fa-comment"></i>
-							Messages</a></li>
+					<li><a href="/pages/UserMail.php?view=inbox"><i
+							class="fa fa-fw fa-comment"></i> Messages</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -372,70 +382,13 @@ ul.alert-dropdown {
 	 }
 	 
 	</script>
-<script>
-	function bind(result){
-		//alert(result);
-		$("#editButton").click(function(){
-			var ID = $(this).attr("name");
-			var obj = JSON.parse(result);
-			
-		});
-	}
-	(function(){
-	
-	    var d = new Date();
-	    var curr_date = d.getDate();
-	    var curr_month = d.getMonth() + 1; //Months are zero based
-	    var curr_year = d.getFullYear();
-	    $("#currentDate").val(curr_month + "/" + curr_date + "/" + curr_year );
-	    
-	 	$.ajax({
-		  type: "POST",
-		  url: "/lib/API/getDashboardStats.php",
-		  data: $("#fieldVars").serialize(),
-		  success: function (result) {
-			//alert(result);
-			  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
-					$("#dialog").html(result);
-			 	    $("#dialog" ).dialog();
-			  }else{
-			  $("#dashboard-upcoming").html("Nothing here yet!");
-			   var obj = JSON.parse(result);
-                $("#COMM_REQUESTS").html("Commission reqests <span class=\"label label-danger\">" + obj.numUnansweredRequets + "</span>");
-                if(obj.numPastDue > 0){
-                    
-                   $("#dashboard-link").html("<i class=\"fa fa-fw fa-dashboard\"></i> Dashboard</a> <span class=\"label label-danger\">!</span>");
-                }else{
-                    
-                }
-                if(obj.overDues.length > 0){
-                    var base = "<table class=\"table table-hover\" id=\"upcoming\">    <thead>      <tr> <th>Action</th>        <th>Project name</th>        <th>User</th>        <th>Catagory</th> <th>Description</th>  <th>Step</th>     <th>Expected due date</th> </tr>    </thead>    <tbody>";
-                    var suffix = "";
-                	var arrayLength = obj.overDues.length;
-                	for (var i = 0; i < arrayLength; i++) {
-                    	if(obj.overDues[i].isWarning == "true"){
-                    		suffix = suffix+"<tr class=\"warning\"> <td><button type=\"button\" class=\"btn btn-primary\" id=\"editButton\" name=\" " + obj.overDues[i].id + "\">Edit..</button></td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
-                	    //Do something
-                    	}else{
-                    		suffix = suffix+"<tr class=\"danger\"> <td><button type=\"button\" class=\"btn btn-primary\" id=\"editButton\" name=\" " + obj.overDues[i].id + "\">Edit..</button></td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
-                    	}
-                	}
-                	$("#dashboard-upcoming").html(base+suffix+"</tbody></table>");
-                	 bind(result);
-                }
-			  }
-		  	}
-	   			
-	 	});   
-	    setTimeout(arguments.callee, 1000);
-	})();
-
-	
-	</script>
+<script src="/JS/systemPoll.js"></script>
+<script src="/JS/pageScripts/Member/queryComissions.js"></script>
 </body>
 <div id="dialog" name="dialog" title="A error has occured" hidden>
 	<p>This is the default dialog which is useful for displaying
 		information. The dialog window can be moved, resized and closed with
 		the 'x' icon.</p>
 </div>
+
 </html>

@@ -22,4 +22,7 @@ $req->execute ();
 $SQL = "CREATE TABLE IF NOT EXISTS `iCommission_Conversations` ( `ID` INT NOT NULL AUTO_INCREMENT , `sender` VARCHAR(255) NOT NULL , `receiver` VARCHAR(255) NOT NULL , `text` LONGTEXT NOT NULL , PRIMARY KEY (`ID`)) ENGINE = InnoDB;";
 $req = $connection->prepare ( $SQL );
 $req->execute ();
+$SQL = "CREATE TABLE IF NOT EXISTS `iComission_Alert` ( `ID` INT NOT NULL AUTO_INCREMENT , `toUser` VARCHAR(255) NOT NULL , `subject` VARCHAR(255) NOT NULL , `type` VARCHAR(255) NOT NULL , `JSON` TEXT NULL ,`message` VARCHAR(255) NOT NULL , PRIMARY KEY (`ID`)) ENGINE = InnoDB;";
+$req = $connection->prepare ( $SQL );
+$req->execute ();
 die ( "All setup!" );
