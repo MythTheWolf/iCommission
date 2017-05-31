@@ -52,7 +52,6 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 
 <style>
 
-
 /*	--------------------------------------------------
 	:: Table Filter
 	-------------------------------------------------- */
@@ -425,12 +424,30 @@ ul.alert-dropdown {
 }
 </style>
 </head>
-
-<body>
+<style>
+div#drop_down_bar {
+	width: 100%;
+	height: 60px;
+	padding-top: 20px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999 !important; /*makes this layer always on top!*/
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 26px;
+	color: #000000;
+	text-align: center;
+	border-bottom: 2px solid #cccccc;
+	display: none;
+}
+</style>
+<body style="overflow-x: hidden">
+	<div id="drop_down_bar" style="background-color: rgba(0, 255, 0, 1);"></div>
 	<form id="fieldVars" name="fieldVars">
-		<input type="text" name="currentDate" id="currentDate" hidden="true">
-		<input type="text" name="view" id="view" hidden="true">
-		
+		<input type="text" name="convoChoice" id="convoChoice" hidden="true">
+		<input type="text" name="view" id="view" hidden="true" value="Inbox">
+		<input type="text" name="pushed" id="pushed" hidden="true"
+			value="false">
 	</form>
 
 	<div id="wrapper">
@@ -465,98 +482,93 @@ ul.alert-dropdown {
 				<ul class="nav navbar-nav side-nav">
 					<li class=""><a href="/pages/member.php" id="dashboard-link"><i
 							class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
-					<li class="active"><a href="/pages/UserMail.php?view=inbox"><i class="fa fa-fw fa-comment"></i>
-							 Messages</a></li>
+					<li class="active"><a href="/pages/UserMail.php?view=inbox"><i
+							class="fa fa-fw fa-comment"></i> Messages</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</nav>
 
-		<div id="page-wrapper">
+		<div style="font-family: Verdana">
+			<div class="container" style="overflow: hidden;">
+				<div class="row " style="padding-top: 40px; overflow: hidden;">
+					<div class="col-md-8">
+						<div class="panel panel-info">
+							<div class="panel-heading"
+								style="background: rgba(144, 144, 144, 0.4);" id="chatbox-head">Chat
+								with {username}</div>
+							<div class="panel-body" style="">
+								<ul class="media-list" id="chatbox">
+								</ul>
+							</div>
+							<div class="panel-footer">
+								<div class="input-group">
+									<form id="messageForm" name="messageForm">
+										<input type="text" id="partnerID" hidden="true"> <input
+											type="text" class="form-control" id="chatMessage"
+											name="chatMessage" placeholder="Enter Message" />
 
-			<div class="container-fluid">
+									</form>
+									<span class="input-group-btn">
+										<button class="btn btn-info" type="button" id="commit-text"
+											name="commit-text">SEND</button>
+									</span>
 
-				<!-- Page Heading -->
-				<div class="row">
-					<div class="col-lg-12">
-						<h1 class="page-header">Messages</h1>
-					</div>
-				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<div class="container">
-						<div class="row">
-
-
-
-							<div class="panel panel-default">
-								<div class="panel-body">
-
-									<div class="btn-group">
-										<button type="button" class="btn btn-success btn-filter"
-											data-target="pagado">Inbox</button>
-										<button type="button" class="btn btn-warning btn-filter"
-											data-target="pendiente">Outbox</button>
-										<button type="button" class="btn btn-danger btn-filter"
-											data-target="cancelado">Trash</button>
-										<button type="button" class="btn btn-default btn-filter"
-											data-target="all">Sent</button>
-									</div>
-
-									<div class="table-container">
-										<table class="table table-filter">
-											<tbody>
-												<tr>
-													<td>
-														<div class="ckbox">
-															<input type="checkbox" id="checkbox1"> <label
-																for="checkbox1"></label>
-														</div>
-													</td>
-													<td><a href="javascript:;" class="star"> <i
-															class="glyphicon glyphicon-star"></i>
-													</a></td>
-													<td>
-														<div class="media">
-															<a href="#" class="pull-left"> <img
-																src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg"
-																class="media-photo">
-															</a>
-															<div class="media-body">
-																<span class="media-meta pull-right">Febrero 13, 2016</span>
-																<h4 class="title">
-																	Lorem Impsum <span class="pull-right pagado">(Pagado)</span>
-																</h4>
-																<p class="summary">Ut enim ad minim veniam, quis nostrud
-																	exercitation...</p>
-															</div>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+								</div>
+								<div class="checkbox">
+									<label><input type="checkbox" value="0" id="follow">Follow thread</label>
 								</div>
 							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Your conversations</div>
+							<div class="panel-body">
+								<ul class="media-list">
 
+									<li class="media">
+
+										<div class="media-body">
+
+											<div class="media">
+												<a class="pull-left" href="#"> <img
+													class="media-object img-circle"
+													style="height: 40px; width: 40px;"
+													src="http://4.bp.blogspot.com/_22tHQU4Gxcumulus1.jpg"
+													onerror="this.src='/assets/image/logo-default.png'" />
+												</a>
+												<div class="media-body">
+													<h5>Alex Deo | User</h5>
+
+													<small class="text-muted">Active From 3 hours</small>
+												</div>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
 						</div>
 
 					</div>
 				</div>
-				<!-- /.row -->
-
 			</div>
-			<!-- /.container-fluid -->
-
 		</div>
-		<!-- /#page-wrapper -->
-
-
 	</div>
+
+
 </body>
 
+<script>
+$(document).ready(function() {
 
+    $('#example tr').click(function() {
+    	var href = $(this).find("input").attr("value");
+    	alert(href);
+    });
+
+});
+</script>
 <script>
 	function getUrlParam(sParam) {
 	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -572,71 +584,108 @@ ul.alert-dropdown {
 	        }
 	    }
 	}
-	 var LOAD = getUrlParam("view");
-	 if(LOAD == null || LOAD === ""){
-		 LOAD = "inbox";
-	 }
-	 
-	</script>
-<script>
 	function bind(result){
-		//alert(result);
-		$("#editButton").click(function(){
-			var ID = $(this).attr("name");
-			var obj = JSON.parse(result);
-			
-		});
-	}
-	(function(){
 	
-	    var d = new Date();
-	    var curr_date = d.getDate();
-	    var curr_month = d.getMonth() + 1; //Months are zero based
-	    var curr_year = d.getFullYear();
-	    $("#currentDate").val(curr_month + "/" + curr_date + "/" + curr_year );
+
+	}
+
+	function DDA( message )
+	{
+	$("div#drop_down_bar").text(message).slideDown(350, function(){
+	$(this).effect("bounce", { times: 1 }, 250, function(){
+	$(this).delay(2000).slideUp("slow");
+	});
+	});
+	}
+	
+	(function(){
+
+	
 	    
 	 	$.ajax({
 		  type: "POST",
-		  url: "/lib/API/getDashboardStats.php",
+		  url: "/lib/API/getMail.php",
 		  data: $("#fieldVars").serialize(),
 		  success: function (result) {
-			//alert(result);
 			  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
 					$("#dialog").html(result);
 			 	    $("#dialog" ).dialog();
 			  }else{
-			  $("#dashboard-upcoming").html(result);
-			   var obj = JSON.parse(result);
-                $("#COMM_REQUESTS").html("Commission reqests <span class=\"label label-danger\">" + obj.numUnansweredRequets + "</span>");
-                if(obj.numPastDue > 0){
-                    
-                   $("#dashboard-link").html("<i class=\"fa fa-fw fa-dashboard\"></i> Dashboard</a> <span class=\"label label-danger\">!</span>");
-                }else{
-                    
-                }
-                if(obj.overDues.length > 0){
-                    var base = "<table class=\"table table-hover\" id=\"upcoming\">    <thead>      <tr> <th>Action</th>        <th>Project name</th>        <th>User</th>        <th>Catagory</th> <th>Description</th>  <th>Step</th>     <th>Expected due date</th> </tr>    </thead>    <tbody>";
-                    var suffix = "";
-                	var arrayLength = obj.overDues.length;
-                	for (var i = 0; i < arrayLength; i++) {
-                    	if(obj.overDues[i].isWarning == "true"){
-                    		suffix = suffix+"<tr class=\"warning\"> <td><button type=\"button\" class=\"btn btn-primary\" id=\"editButton\" name=\" " + obj.overDues[i].id + "\">Edit..</button></td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
-                	    //Do something
-                    	}else{
-                    		suffix = suffix+"<tr class=\"danger\"> <td><button type=\"button\" class=\"btn btn-primary\" id=\"editButton\" name=\" " + obj.overDues[i].id + "\">Edit..</button></td><td>" + obj.overDues[i].name +"</td><td>" + obj.overDues[i].endUser +"</td><td>" + obj.overDues[i].catName + "</td><td>" + obj.overDues[i].desc + "</td><td>" + obj.overDues[i].stepName + "</td><td>" + obj.overDues[i].projectedEnd + "</td>";
-                    	}
-                	}
-                	$("#dashboard-upcoming").html(base+suffix+"</tbody></table>");
-                	 bind(result);
-                }
-			  }
-		  	}
-	   			
-	 	});   
-	    setTimeout(arguments.callee, 1000);
-	})();
+				  var JSONOBJ = JSON.parse(result);
+				  var APP = "";
+				  var arrayLength = JSONOBJ.messages.length;
+				 var check;
+					for (var i = 0; i < arrayLength; i++) {
+						
+						check = "#message_"+JSONOBJ.messages[i].id;
+						
+								if( $(check).length == 0 ){
+									
+									APP = "<div id=\"message_" + JSONOBJ.messages[i].id + "\"><li class=media><div class=media-body><div class=media><a class=pull-left href=#><img class=\"img-circle media-object\"onerror='this.src=\"/assets/image/logo-default.png\"'src=\"\"style=width:90px;height:90px></a><div class=media-body>"+JSONOBJ.messages[i].content+"<br><hr><small class=text-muted>"+JSONOBJ.messages[i].senderName+"</small></div></div></div></li><hr></div>";
+									$("#chatbox").append(APP);
+									if ($('#follow').is(':checked')) {
+										$("html, body").animate({ scrollTop: $(document).height() }, 1);
+									}
+								}else{
 
-	
+								}
+					}				 
+			  }
+		  }
+	 	});   
+	setTimeout(arguments.callee, 1000);
+	})();
+	function reparse(){
+		$("#chatbox").html("");
+	 	$.ajax({
+			  type: "POST",
+			  url: "/lib/API/getMail.php",
+			  data: $("#fieldVars").serialize(),
+			  success: function (result) {
+				  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
+						$("#dialog").html(result);
+				 	    $("#dialog" ).dialog();
+				  }else{
+					  var JSONOBJ = JSON.parse(result);
+					  var APP = "";
+					  var arrayLength = JSONOBJ.messages.length;
+					 var check;
+						for (var i = 0; i < arrayLength; i++) {
+							
+							check = "#message_"+JSONOBJ.messages[i].id;
+							
+									if( $(check).length == 0 ){
+										
+										APP = "<div id=\"message_" + JSONOBJ.messages[i].id + "\"><li class=media><div class=media-body><div class=media><a class=pull-left href=#><img class=\"img-circle media-object\"onerror='this.src=\"/assets/image/logo-default.png\"'src=\"\"style=width:90px;height:90px></a><div class=media-body>"+JSONOBJ.messages[i].content+"<br><hr><small class=text-muted>"+JSONOBJ.messages[i].senderName+"</small></div></div></div></li><hr></div>";
+										$("#chatbox").append(APP);
+										if ($('#follow').is(':checked')) {
+											$("html, body").animate({ scrollTop: $(document).height() }, 1);
+										}
+									}else{
+
+									}
+						}				 
+				  }
+			  }
+		 	});   
+	}
+	$("#commit-text").click(function(){
+		$.ajax({
+			  type: "POST",
+			  url: "/lib/API/commitMessage.php",
+			  data: $("#messageForm").serialize(),
+			  success: function (result) {
+				  if(result.indexOf("Warning") == 999 || result.indexOf("Fatal") > -1 || result.indexOf("error") > -1){
+						$("#dialog").html(result);
+				 	    $("#dialog" ).dialog();
+				  }else{
+					  $("#chatMessage").val("");
+					  DDA("Your message has been sent.");
+					reparse();
+				  }
+			  }
+		});
+	});
 	</script>
 </body>
 <div id="dialog" name="dialog" title="A error has occured" hidden>

@@ -399,7 +399,7 @@ ul.alert-dropdown {
 					$("#dialog").html(result);
 			 	    $("#dialog" ).dialog();
 			  }else{
-			  $("#dashboard-upcoming").html(result);
+			  $("#dashboard-upcoming").html("Nothing here yet!");
 			   var obj = JSON.parse(result);
                 $("#COMM_REQUESTS").html("Commission reqests <span class=\"label label-danger\">" + obj.numUnansweredRequets + "</span>");
                 if(obj.numPastDue > 0){
