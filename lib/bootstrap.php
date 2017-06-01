@@ -320,7 +320,7 @@ ul.alert-dropdown {
 			<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
-					<li id="liDashboard" class=""><a href="?" id="dashboard-link"><i
+					<li id="liDashboard" class=""><a href="/pages/member.php" id="dashboard-link"><i
 							class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
 					<li id="liMessages"><a href="/pages/UserMail.php?view=inbox"><i
 							class="fa fa-fw fa-comment"></i> Messages</a></li>
@@ -370,6 +370,4 @@ ul.alert-dropdown {
 		</div>
 		<input id="userID" name="userID" value="<?php echo siteUser::convertToId($_COOKIE['USERNAME']);?>" hidden="true">
 		<script src="/JS/pageScripts/global/replyMessage.js"></script>
-		<script>
-		$.get("/lib/API/heartBeat.php?id=" + $("#userID").val());
-		</script>
+		<script src="http://localhost:8080/socket.io/socket.io.js"></script>

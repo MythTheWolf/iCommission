@@ -10,6 +10,7 @@ class siteUser {
 	private $status;
 	private $open;
 	private $avatarURL;
+	private $online;
 	static function convertToId($name) {
 		$sql = "SELECT * FROM `icomission_user` WHERE `username` = \"" . $name . "\"";
 		$db = (new MySQL ())->getConnection ();
@@ -39,6 +40,7 @@ class siteUser {
 			$this->email = $row ['email'];
 			$this->username = $row ['username'];
 			$this->avatarURL = $row ['avatar'];
+			$this->online = $row['online'];
 		}
 	}
 	function getGender() {
@@ -64,6 +66,13 @@ class siteUser {
 			return "/assets/image/logo-default.png";
 		} else {
 			return $this->avatarURL;
+		}
+	}
+	function isOnline(){
+		if($this->online == "true" || $this->online == true){
+			return true;
+		}else{
+			return false;
 		}
 	}
 }

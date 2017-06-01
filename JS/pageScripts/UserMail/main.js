@@ -123,9 +123,10 @@ $('#chatMessage').bind(
 $('#chatMessage').keyup(function(e) {
 	if (e.keyCode == 13) {
 		if (!e.shiftKey) {
+			alert("SHIFT_NOT_ENTER");
 			$(this).trigger("enterKey");
 		} else {
-
+			alert("SHIFT_ENTER");
 		}
 	}
 });

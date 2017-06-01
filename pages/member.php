@@ -1,31 +1,39 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'].'/lib/bootstrap.php';?>
-		<div id="page-wrapper">
+<div id="page-wrapper">
 
-			<div class="container-fluid">
+	<div class="container-fluid">
 
-				<!-- Page Heading -->
-				<div class="row">
-					<div class="col-lg-12">
-						<h1 class="page-header">Overdue/Upcoming commissions</h1>
-					</div>
-				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="table-responsive" id="dashboard-upcoming"></div>
-					</div>
-				</div>
-				<!-- /.row -->
-
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Overdue/Upcoming commissions</h1>
 			</div>
-			<!-- /.container-fluid -->
-
 		</div>
-		<!-- /#page-wrapper -->
+		<!-- /.row -->
 
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="table-responsive" id="dashboard-upcoming"></div>
+			</div>
+		</div>
+		<!-- /.row -->
 
-	
+	</div>
+	<!-- /.container-fluid -->
+
+</div>
+<!-- /#page-wrapper -->
+<button class="btn btn-danger" onClick="doThing()">KK</button>
+
+<script>
+	function doThing(){
+		var socket = io.connect('http://localhost:8080');
+		socket.on('connect', function() {
+			alert('Client has connected to the server!');
+			io.sockets.emit('message', 'WEE');
+		});
+	}
+	</script>
 </body>
 
 <script src="/JS/pageScripts/Member/queryComissions.js"></script>
