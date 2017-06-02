@@ -1,6 +1,7 @@
 {
     "require": {
         "paypal/rest-api-sdk-php": "^1.11",
-        "paypal/adaptiveaccounts-sdk-php": "^3.10"
+        "paypal/adaptiveaccounts-sdk-php": "^3.10",
+        "cboden/ratchet": "^0.3.6"
     }
 }

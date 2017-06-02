@@ -17,7 +17,6 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Simple Sidebar - Start Bootstrap Template</title>
 <link rel="stylesheet"
 	href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css"
 	integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU"
@@ -54,7 +53,8 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 	href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/css/iziModal.css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.4.2/js/iziModal.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.3/howler.core.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.3/howler.core.min.js"></script>
 <style>
 
 /* CSS used here will be applied after bootstrap.css */ /*!
@@ -320,17 +320,15 @@ ul.alert-dropdown {
 			<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
-					<li id="liDashboard" class=""><a href="/pages/member.php" id="dashboard-link"><i
-							class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
+					<li id="liDashboard" class=""><a href="/pages/member.php"
+						id="dashboard-link"><i class="fa fa-fw fa-dashboard"></i>
+							Dashboard</a></li>
 					<li id="liMessages"><a href="/pages/UserMail.php?view=inbox"><i
 							class="fa fa-fw fa-comment"></i> Messages</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</nav>
-
-		<script src="/JS/systemPoll.js"></script>
-		<script src="/JS/pageScripts/Member/queryComissions.js"></script>
 
 		<script>
 	function activate(my){
@@ -368,6 +366,12 @@ ul.alert-dropdown {
 			</form>
 
 		</div>
-		<input id="userID" name="userID" value="<?php echo siteUser::convertToId($_COOKIE['USERNAME']);?>" hidden="true">
-		<script src="/JS/pageScripts/global/replyMessage.js"></script>
-		<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+		<input id="userID" name="userID"
+			value="<?php echo siteUser::convertToId($_COOKIE['USERNAME']);?>"
+			hidden="true">
+
+		<script src="http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js"></script>
+		<div id="dialog" name="dialog" title="A error has occured" hidden>
+			<p>This is the default dialog which is useful for displaying
+				information.</p>
+		</div>

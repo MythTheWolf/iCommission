@@ -23,20 +23,10 @@
 
 </div>
 <!-- /#page-wrapper -->
-<button class="btn btn-danger" onClick="doThing()">KK</button>
 
-<script>
-	function doThing(){
-		var socket = io.connect('http://localhost:8080');
-		socket.on('connect', function() {
-			alert('Client has connected to the server!');
-			io.sockets.emit('message', 'WEE');
-		});
-	}
-	</script>
 </body>
 
-<script src="/JS/pageScripts/Member/queryComissions.js"></script>
+
 <script>
 
 	function getUrlParam(sParam) {
@@ -59,12 +49,7 @@
 	 }
 	 
 	</script>
-
+<script src="/JS/pageScripts/global/socketClient.js"></script>
+<script src="/JS/pageScripts/global/replyMessage.js"></script>
 </body>
-<div id="dialog" name="dialog" title="A error has occured" hidden>
-	<p>This is the default dialog which is useful for displaying
-		information. The dialog window can be moved, resized and closed with
-		the 'x' icon.</p>
-</div>
-
 </html>

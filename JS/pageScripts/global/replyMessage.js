@@ -1,6 +1,6 @@
 function doThing() {
-	alert("DOING");
-	alert($("#replyForm").serialize());
+	var packet = { "scope":"REPARSE_CHAT", "wanted": "1"}
+	sockjs.send(JSON.stringify(packet));
 	$.ajax({
 		type : "POST",
 		url : "/lib/API/commitMessage.php",
@@ -13,6 +13,7 @@ function doThing() {
 				$("#dialog").dialog();
 			} else {
 				$('#modal').iziModal('close');
+				$("#chatMessage").val("");
 				iziToast.show({
 					id : 'haduken',
 					color : 'dark',
@@ -35,7 +36,7 @@ function doThing() {
 					  src: ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3']
 					});
 
-					sound.play();
+					//sound.play();
 			}
 		}
 	});

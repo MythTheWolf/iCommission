@@ -15,8 +15,8 @@
 						<div class="input-group">
 							<form id="messageForm" name="messageForm">
 								<input type="text" id="partnerID" hidden="true">
-								<textarea class="form-control" id="chatMessage"
-									name="chatMessage_page" placeholder="Enter Message" rows="1"></textarea>
+								<textarea class="form-control" id="chatMessage" custom="chatMessage_page"
+									name="chatMessage" placeholder="Enter Message" rows="1"></textarea>
 
 							</form>
 							<span class="input-group-btn">
@@ -72,11 +72,8 @@
 
 <script></script>
 </body>
-<div id="dialog" name="dialog" title="A error has occured" hidden>
-	<p>This is the default dialog which is useful for displaying
-		information. The dialog window can be moved, resized and closed with
-		the 'x' icon.</p>
-</div>
 <script src="/JS/pageScripts/Member/queryComissions.js"></script>
+
+<script src="/JS/pageScripts/global/socketClient.js"></script>
 <script src="/JS/pageScripts/UserMail/main.js"></script>
 </html>

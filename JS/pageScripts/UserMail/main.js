@@ -1,3 +1,4 @@
+
 function getUrlParam(sParam) {
 	var sPageURL = decodeURIComponent(window.location.search.substring(1)), sURLVariables = sPageURL
 			.split('&'), sParameterName, i;
@@ -34,12 +35,8 @@ function DDA(message) {
 		iconColor : 'rgb(0, 255, 184)'
 	});
 }
-
-(function() {
-	reparse(false);
-	setTimeout(arguments.callee, 1000);
-})();
 function reparse(rebuild) {
+
 	if (rebuild) {
 		$("#chatbox").html("");
 
@@ -106,6 +103,7 @@ $('#chatMessage').bind(
 				url : "/lib/API/commitMessage.php",
 				data : $("#messageForm").serialize(),
 				success : function(result) {
+					sockjs.send(result);
 					if (result.indexOf("Warning") == 999
 							|| result.indexOf("Fatal") > -1
 							|| result.indexOf("error") > -1) {
@@ -137,13 +135,14 @@ $("#commit-text").click(
 				url : "/lib/API/commitMessage.php",
 				data : $("#messageForm").serialize(),
 				success : function(result) {
+					sockjs.send(result);
 					if (result.indexOf("Warning") == 999
 							|| result.indexOf("Fatal") > -1
 							|| result.indexOf("error") > -1) {
 						$("#dialog").html(result);
 						$("#dialog").dialog();
 					} else {
-						$("textarea[name='chatMessage_page']").val("");
+						$("textarea[custom='chatMessage_page']").val("");
 						DDA("Your message has been sent.");
 						reparse(false);
 
