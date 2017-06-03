@@ -288,6 +288,7 @@ ul.alert-dropdown {
 	<form id="fieldVars" name="fieldVars">
 		<input type="text" name="currentDate" id="currentDate" hidden="true">
 		<input type="text" name="page" id="page" hidden="true">
+		<input type="text" name="selectedChat" id="selectedChat" hidden="true">
 	</form>
 
 	<div id="wrapper">
@@ -370,7 +371,7 @@ ul.alert-dropdown {
 			value="<?php echo siteUser::convertToId($_COOKIE['USERNAME']);?>"
 			hidden="true">
 
-		<script src="http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js"></script>
+		<script src="http://192.168.1.71:3000/socket.io/socket.io.js"></script>
 		<div id="dialog" name="dialog" title="A error has occured" hidden>
 			<p>This is the default dialog which is useful for displaying
 				information.</p>

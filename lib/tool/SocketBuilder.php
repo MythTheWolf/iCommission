@@ -1,25 +1,20 @@
 <?php
 class SocketBuilder {
 	private $return = Array ();
+	private $actMessage;
 	function __construct() {
 	}
-	function append($key, $val) {
-		$this->return [$key] = $val;
+	function setKey($key) {
+		$this->return ['key'] = $key;
+	}
+	function setScope($scope) {
+		$this->return ['scope'] = $scope;
+	}
+	function appendData($key, $val) {
+		$this->actMessage [$key] = $val;
 	}
 	function toJSON() {
+		$this->return ['value'] = json_encode ( $this->actMessage );
 		return json_encode ( $this->return );
-	}
-	function setScope($val) {
-		$this->return ['scope'] = $val;
-	}
-	function setUser($userID) {
-		$userData = Array ();
-		$USER = new siteUser ( $userID );
-		$userData ['icon'] = $USER->getAvatar ();
-		$userData ['name'] = $USER->getName ();
-		$this->return ['userData'] = $userData;
-	}
-	function setReceiver($userID) {
-		$this->return ['wanted'] = $userID;
 	}
 }

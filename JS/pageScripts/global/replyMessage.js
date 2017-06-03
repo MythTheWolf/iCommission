@@ -1,6 +1,5 @@
 function doThing() {
-	var packet = { "scope":"REPARSE_CHAT", "wanted": "1"}
-	sockjs.send(JSON.stringify(packet));
+	socket.emit("broadcast", JSON.stringify({scope:"hh",key:"reparse",value:"some text"}));
 	$.ajax({
 		type : "POST",
 		url : "/lib/API/commitMessage.php",
@@ -35,8 +34,6 @@ function doThing() {
 				var sound = new Howl({
 					  src: ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3']
 					});
-
-					//sound.play();
 			}
 		}
 	});

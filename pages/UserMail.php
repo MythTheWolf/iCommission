@@ -35,27 +35,9 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading">Your conversations</div>
 					<div class="panel-body">
-						<ul class="media-list">
+						<ul class="media-list" id="convoList">
 
-							<li class="media">
-
-								<div class="media-body">
-
-									<div class="media">
-										<a class="pull-left" href="#"> <img
-											class="media-object img-circle"
-											style="height: 40px; width: 40px;"
-											src="http://4.bp.blogspot.com/_22tHQU4Gxcumulus1.jpg"
-											onerror="this.src='/assets/image/logo-default.png'" />
-										</a>
-										<div class="media-body">
-											<h5>Alex Deo | User</h5>
-
-											<small class="text-muted">Active From 3 hours</small>
-										</div>
-									</div>
-								</div>
-							</li>
+						
 						</ul>
 					</div>
 				</div>
