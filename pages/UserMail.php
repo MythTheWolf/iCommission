@@ -9,14 +9,17 @@
 						with {username}</div>
 					<div class="panel-body" style="">
 						<ul class="media-list" id="chatbox">
+							<div><img src="/assets/image/load.gif"></div>
+						
 						</ul>
 					</div>
 					<div class="panel-footer">
 						<div class="input-group">
 							<form id="messageForm" name="messageForm">
 								<input type="text" id="partnerID" hidden="true">
-								<textarea class="form-control" id="chatMessage" custom="chatMessage_page"
-									name="chatMessage" placeholder="Enter Message" rows="1"></textarea>
+								<textarea class="form-control" id="chatMessage"
+									custom="chatMessage_page" name="chatMessage"
+									placeholder="Enter Message" rows="1"></textarea>
 
 							</form>
 							<span class="input-group-btn">
@@ -37,7 +40,7 @@
 					<div class="panel-body">
 						<ul class="media-list" id="convoList">
 
-						
+
 						</ul>
 					</div>
 				</div>

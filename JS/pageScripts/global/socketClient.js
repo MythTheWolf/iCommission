@@ -21,7 +21,7 @@ socket
 						console
 								.log("[iComission socket]Data matches, connection accepted!, sending username for server.");
 						socket.emit("__COMPLETE", {
-							USERNAME : "hh"
+							USERNAME : $("#username").val()
 						});
 						socket
 								.on(

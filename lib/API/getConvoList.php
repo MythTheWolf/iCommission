@@ -10,8 +10,14 @@ $sql = 'SELECT * FROM `iCommission_Conversations` WHERE (`sender` = "'.$self.'" 
 if (! $result = $con->query ( $sql )) {
 	die ( "There was an error running the query [" . $db->error . ']' );
 }
+$chosenConvo;
+$isPicked;
 while ( $row = $result->fetch_assoc () ) {
 	if($row['sender'] == $self){
+		if(!$isPicked){
+			$chosenConvo = $row['toSendTo'];
+			$isPicked = true;
+		} 
 		if(!in_array($row['toSendTo'], $has)){
 			$data['icon'] = (new siteUser($row['toSendTo']))->getAvatar();
 			$data['user'] =  (new siteUser($row['toSendTo']))->getName();
@@ -21,6 +27,10 @@ while ( $row = $result->fetch_assoc () ) {
 			$has[]  = $row['toSendTo'];
 		}
 	}else{
+		if(!$isPicked){
+			$chosenConvo = $row['sender'];
+			$isPicked = true;
+		} 
 		if(!in_array($row['sender'], $has)){
 			$data['icon'] = (new siteUser($row['sender']))->getAvatar();
 			$data['user'] =  (new siteUser($row['sender']))->getName();
@@ -31,5 +41,7 @@ while ( $row = $result->fetch_assoc () ) {
 		}
 	}
 }
+
+
 $return['list'] = $list;
 die(json_encode($return));

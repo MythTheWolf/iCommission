@@ -370,7 +370,9 @@ ul.alert-dropdown {
 		<input id="userID" name="userID"
 			value="<?php echo siteUser::convertToId($_COOKIE['USERNAME']);?>"
 			hidden="true">
-
+		<input id="username" name="username"
+			value="<?php echo $_COOKIE['USERNAME']; ?>"
+			hidden="true">
 		<script src="http://192.168.1.71:3000/socket.io/socket.io.js"></script>
 		<div id="dialog" name="dialog" title="A error has occured" hidden>
 			<p>This is the default dialog which is useful for displaying

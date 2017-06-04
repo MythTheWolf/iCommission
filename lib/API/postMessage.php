@@ -1,0 +1,23 @@
+<?php
+require_once $_SERVER ['DOCUMENT_ROOT'] . "/lib/tool/php_bootstrap.php";
+$builder = new SocketBuilder();
+$con = (new MySQL())->getConnection();
+$sql = "INSERT INTO `icommission_conversations` (`ID`, `sender`, `toSendTo`, `text`) VALUES (NULL, ?, ?, ?)";
+$req = $con->prepare($sql);
+$sender = siteUser::convertToId($_COOKIE['USERNAME']);
+$req->bind_param("sss", $sender,$_GET['chat'],$_POST['chatMessage']);
+$req->execute();
+$builder->setKey("message_push");
+$builder->setScope("myth");
+$user = new siteUser($_GET['chat']);
+$builder->appendData("message", $_POST['chatMessage']);
+$builder->appendData("avatar", $user->getAvatar());
+$builder->appendData("senderName", $user->getName());
+$sockets['messagePush'] = $builder->toJSON();
+$builder->setKey("message_get");
+$builder->setScope("myth");
+$builder->appendData("subject", $user->getName()." has sent you a message: ");
+$builder->appendData("content", $_POST['chatMessage']);
+$builder->appendData("icon", $user->getAvatar());
+$sockets['messageNotif'] = $builder->toJSON();
+die(json_encode($sockets));
