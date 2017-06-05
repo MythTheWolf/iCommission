@@ -9,8 +9,10 @@
 						with {username}</div>
 					<div class="panel-body" style="">
 						<ul class="media-list" id="chatbox">
-							<div><img src="/assets/image/load.gif"></div>
-						
+							<div>
+								<img src="/assets/image/load.gif">
+							</div>
+
 						</ul>
 					</div>
 					<div class="panel-footer">
@@ -36,7 +38,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="panel panel-primary">
-					<div class="panel-heading">Your conversations</div>
+					<div class="panel-heading">Your conversations <a href="#" onClick="return(false)" id="openCompose" style="color:white">| Compose..</a></div>
 					<div class="panel-body">
 						<ul class="media-list" id="convoList">
 
@@ -49,7 +51,43 @@
 		</div>
 	</div>
 </div>
+<div id="compose" hidden="true">
+<form class="form-horizontal" id="composeForm">
+<fieldset>
 
+<!-- Form Name -->
+<legend>Compose</legend>
+<div id="warnings"></div>
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Username</label>  
+  <div class="col-md-4">
+  <input id="textinput" name="textinput" type="text" placeholder="Username" class="form-control input-md">
+    
+  </div>
+</div>
+
+<!-- Textarea -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="composeText">Message</label>
+  <div class="col-md-4">                     
+    <textarea class="form-control" id="chatMessage" name="chatMessage"></textarea>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="composeGo"></label>
+  <div class="col-md-8">
+    <button id="composeGo" name="composeGo" class="btn btn-success" onClick="return(false)">Go</button>
+    <button id="composeCance" name="composeCance" class="btn btn-danger" onClick="$('#compose').iziModal('close');">Cancel</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+</div>
 
 
 </body>

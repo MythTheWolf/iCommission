@@ -19,5 +19,6 @@ $builder->setScope("myth");
 $builder->appendData("subject", $user->getName()." has sent you a message: ");
 $builder->appendData("content", $_POST['chatMessage']);
 $builder->appendData("icon", $user->getAvatar());
+$builder->appendData("ID", $_GET['chat']);
 $sockets['messageNotif'] = $builder->toJSON();
 die(json_encode($sockets));

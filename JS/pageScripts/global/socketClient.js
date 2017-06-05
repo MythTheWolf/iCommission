@@ -34,12 +34,13 @@ socket
 										});
 					}
 				});
-socket.on("reparse", function() {
-	alert("RE");
-	reparse(false);
-});
 socket.on("message_get", function(raw){
+	var loc = window.location.pathname;
+	if(loc == "/pages/UserMail.php"){
+		return;
+	}
 	var data = JSON.parse(raw);
+	$("#selectedChat").val(data.ID);
 	iziToast.show({
 		title : data.subject,
 		icon : 'icon-drafts',

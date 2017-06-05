@@ -1,10 +1,10 @@
 function doThing() {
-	socket.emit("broadcast", JSON.stringify({scope:"hh",key:"reparse",value:"some text"}));
 	$.ajax({
 		type : "POST",
-		url : "/lib/API/commitMessage.php",
+		url : "/lib/API/postMessage.php?chat="+$("#selectedChat").val(),
 		data : $("#replyForm").serialize(),
 		success : function(result) {
+		
 			if (result.indexOf("Warning") == 999
 					|| result.indexOf("Fatal") > -1
 					|| result.indexOf("error") > -1) {
@@ -31,9 +31,9 @@ function doThing() {
 					},
 					iconColor : 'rgb(0, 255, 184)'
 				});
-				var sound = new Howl({
-					  src: ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3']
-					});
+				var json = JSON.parse(result);
+				socket.emit("broadcast",json.messagePush);
+				socket.emit("broadcast",json.messageNotif);
 			}
 		}
 	});

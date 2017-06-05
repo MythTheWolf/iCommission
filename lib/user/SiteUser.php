@@ -11,8 +11,11 @@ class siteUser {
 	private $open;
 	private $avatarURL;
 	private $online;
+	private $exists;
 	static function convertToId($name) {
+		
 		$sql = "SELECT * FROM `icomission_user` WHERE `username` = \"" . $name . "\"";
+		$return = "ERROR->NOTFOUND";
 		$db = (new MySQL ())->getConnection ();
 		if (! $result = $db->query ( $sql )) {
 			die ( 'There was an error running the query [' . $db->error . ']' );
@@ -20,10 +23,12 @@ class siteUser {
 		
 		while ( $row = $result->fetch_assoc () ) {
 			
-			return $row ['ID'];
+			$return = $row ['ID'];
 		}
+		return $return;
 	}
 	function __construct($user) {
+		$this->exists = false;
 		$mySQL = new MySQL ();
 		$db = $mySQL->getConnection ();
 		
@@ -31,8 +36,8 @@ class siteUser {
 		if (! $result = $db->query ( $sql )) {
 			die ( 'There was an error running the query [' . $db->error . ']' );
 		}
-		
 		while ( $row = $result->fetch_assoc () ) {
+			$this->exists = true;
 			$this->gender = $row ['gender'];
 			$this->status = $row ['status'];
 			$this->open = $row ['open'];
@@ -74,5 +79,8 @@ class siteUser {
 		}else{
 			return false;
 		}
+	}
+	function exists(){
+		return $this->exists;
 	}
 }
