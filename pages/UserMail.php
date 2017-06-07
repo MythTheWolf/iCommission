@@ -21,7 +21,7 @@
 								<input type="text" id="partnerID" hidden="true">
 								<textarea class="form-control" id="chatMessage"
 									custom="chatMessage_page" name="chatMessage"
-									placeholder="Enter Message" rows="1"></textarea>
+									placeholder="Enter Message" type="compose" rows="1"></textarea>
 
 							</form>
 							<span class="input-group-btn">

@@ -39,9 +39,9 @@ $
 
 function setChat(theId) {
     $.get(
-            "/lib/API/getID.php?username=" + theId,
+            "/lib/API/getUsername.php?ID=" + theId,
             function(data) {
-            	alert(data);
+            
             	$("#chatbox-header").html("Chat with "+data);
             });
     $("#selectedChat").val(theId);
@@ -77,6 +77,7 @@ function remakeThread() {
         });
     }
     $("#commit-text").click(function() {
+    	
         $.ajax({
             type: "POST",
             url: "/lib/API/postMessage.php?chat=" + $("#selectedChat").val(),
@@ -85,6 +86,7 @@ function remakeThread() {
                 var json = JSON.parse(result);
                 socket.emit("broadcast", json.messagePush);
                 socket.emit("broadcast", json.messageNotif);
+                $("textarea[type='compose']").val("");
             }
         });
     });
@@ -114,6 +116,8 @@ function remakeThread() {
                         "/lib/API/getID.php?username=" +
                         $("#textinput").val(),
                         function(data) {
+                        	$("#textinput").val("");
+                        	$("#chatMessage").val("");
                             if (data == "ERROR->NOTFOUND") {
                                 $("#warnings")
                                     .html(
