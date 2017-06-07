@@ -24,11 +24,11 @@ $USER = new siteUser ( $_COOKIE ['USERNAME'] );
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
 	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	crossorigin="anonymous"></script>
-<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
 	crossorigin="anonymous"></script>
 <link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+	href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -373,7 +373,7 @@ ul.alert-dropdown {
 		<input id="username" name="username"
 			value="<?php echo $_COOKIE['USERNAME']; ?>"
 			hidden="true">
-		<script src="http://192.168.1.71:3000/socket.io/socket.io.js"></script>
+		<script src="https://192.168.1.71:3000/socket.io/socket.io.js"></script>
 		<div id="dialog" name="dialog" title="A error has occured" hidden>
 			<p>This is the default dialog which is useful for displaying
 				information.</p>
